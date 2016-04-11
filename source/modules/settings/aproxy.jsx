@@ -106,17 +106,19 @@ class AProxy {
                 _aproxyauth = _formvals['username'] + ":" + _formvals['password'];
               }
               var _aproxyuri = _formvals['protocol'] + '://' + _aproxyauth + '@' +_server + ':' + _formvals['port'];
+              var hash = (String(+new Date) + String(Math.random())).substr(10, 10).replace('.', '_');
 
               antSword['ipcRenderer']
-              .on('aproxytest-error', (event, err) => {
+              .on(`aproxytest-error-${hash}`, (event, err) => {
                 layer.close(loadindex);
                 toastr.error(LANG['prompt']['error']+ "\n" + err['code'], LANG_T['error']);
               })
-              .on('aproxytest-success', (event, ret) => {
+              .on(`aproxytest-success-${hash}`, (event, ret) => {
                 layer.close(loadindex);
                 toastr.success(LANG['prompt']['success'], LANG_T['success']);
               })
               .send('aproxytest',{
+                hash: hash,
                 url: testurl || 'http://uyu.us',
                 aproxyuri: _aproxyuri
               });
