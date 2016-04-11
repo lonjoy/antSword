@@ -35,10 +35,10 @@ class Request {
         .end((err, ret) => {
           if (err) {
             logger.debug("[aProxy] Test Error");
-            return event.sender.send('aproxytest-error', err);
+            return event.sender.send('aproxytest-error-' + opts['hash'], err);
           }else{
             logger.debug("[aProxy] Test Success");
-            return event.sender.send('aproxytest-success', ret);
+            return event.sender.send('aproxytest-success-' + opts['hash'], ret);
           }
         });
     });
